@@ -4,27 +4,33 @@ import { User } from 'src/typeorm/entities/User';
 import { Repository } from 'typeorm';
 import {
   CreateUserParams,
+  CreateUserPostParams,
   CreateUserProfileParams,
-  UpdateUserParams,
+  UpdateUserParams
 } from '../../../utils/type';
 import { Profile } from 'src/typeorm/entities/Profile';
+import { Post } from 'src/typeorm/entities/Post';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectRepository(Post) private postRepository: Repository<Post>
   ) {}
 
   findUsers() {
-    return this.userRepository.find();
+    // return the simple user
+    // return this.userRepository.find();
+    // return more information regarding the relation (need the key name)
+    return this.userRepository.find({ relations: ['profile', 'posts'] });
   }
 
   createUser(userDetails: CreateUserParams) {
     console.log('=> user details : ', userDetails);
     const newUser = this.userRepository.create({
       ...userDetails,
-      createdAt: new Date(),
+      createdAt: new Date()
     });
     return this.userRepository.save(newUser);
   }
@@ -40,7 +46,7 @@ export class UsersService {
 
   async createUserProfile(
     id: string,
-    createUserProfileDetails: CreateUserProfileParams,
+    createUserProfileDetails: CreateUserProfileParams
   ) {
     const foundUser = await this.userRepository.findOneBy({ id });
     if (!foundUser) {
@@ -50,5 +56,20 @@ export class UsersService {
     const saveProfile = await this.profileRepository.save(newProfile);
     foundUser.profile = saveProfile;
     return this.userRepository.save(foundUser);
+  }
+
+  async createUserPost(
+    id: string,
+    createUserPostDetails: CreateUserPostParams
+  ) {
+    const foundUser = await this.userRepository.findOneBy({ id });
+    if (!foundUser) {
+      throw new HttpException('user not found', HttpStatus.BAD_REQUEST);
+    }
+    const newPost = this.postRepository.create({
+      ...createUserPostDetails,
+      user: foundUser
+    });
+    return this.postRepository.save(newPost);
   }
 }
