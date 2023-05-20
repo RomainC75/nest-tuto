@@ -1,12 +1,13 @@
 ### List messages
-GET http://localhost:3000/messages
+GET http://localhost:3000/auth/
 
 ###CREAte new message
 POST http://localhost:3000/messages
 content-type: application/json
 
 {
-    "content": "my super content"
+    "email":"rom.chenard@gmail.com",
+    "password": "azerty"
 }
 
 ###GET particular message
