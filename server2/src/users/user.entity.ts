@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { IsEmail } from "class-validator";
+import { Entity, Column, PrimaryGeneratedColumn, AfterInsert, AfterUpdate, AfterRemove } from "typeorm";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class User{
@@ -7,8 +9,25 @@ export class User{
     id: number;
 
     @Column()
+    @IsEmail()
     email: string;
 
     @Column()
+    @Exclude()
     password: string;
+
+    @AfterInsert()
+    logInsert(){
+        console.log('=> inserted user with id : ', this.id)
+    }
+
+    @AfterUpdate()
+    logUpdate(){
+        console.log("Updated User with id", this.id)
+    }
+
+    @AfterRemove()
+    logRemoved(){
+        console.log('=> removed user with id : ', this.id)
+    }
 }

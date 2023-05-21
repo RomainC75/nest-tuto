@@ -2,7 +2,7 @@
 GET http://localhost:3000/auth/
 
 ###CREAte new message
-POST http://localhost:3000/messages
+POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
@@ -10,5 +10,26 @@ content-type: application/json
     "password": "azerty"
 }
 
+###GET particular id
+GET http://localhost:3000/auth/4
+
+###GET every users with email
+GET http://localhost:3000/auth?email=rom.chenard@gmail.com
+
+
+
+
 ###GET particular message
-GET http://localhost:3000/messages/68
+GET http://localhost:3000/auth/4
+
+###Delete user by id
+DELETE http://localhost:3000/auth/3
+
+###Update user by id
+PATCH http://localhost:3000/auth/2
+content-type: application/json
+
+{
+    "email":"xxxxxx@gmail.com",
+    "password": "azerty123"
+}
