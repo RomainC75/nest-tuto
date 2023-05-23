@@ -9,7 +9,6 @@ export const CurrentUser = createParamDecorator(
     // Request is just HTTP !
     (data: never, context: ExecutionContext) =>{
         const request = context.switchToHttp().getRequest()
-        console.log(request.session.userId)
-        return 'hi !'
+        return request.currentUser
     }
 )
