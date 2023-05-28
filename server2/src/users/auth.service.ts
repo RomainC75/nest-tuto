@@ -11,6 +11,7 @@ export class AuthService{
 
     async signup(email: string, password: string){
         const users = await this.userService.find(email)
+        console.log('"=> found user : ', users)
         if(users.length){
             throw new BadRequestException('email already used')
         }
@@ -24,6 +25,7 @@ export class AuthService{
 
     async signin(email: string, password: string){
         const [user] = await this.userService.find(email)
+        console.log("found USER : ", user)
         if(!user){
             throw new NotFoundException('user not found')
         }
