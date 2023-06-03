@@ -1,4 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/users/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
+console.log(User)
+
 
 @Entity()
 export class Report{
@@ -7,18 +11,27 @@ export class Report{
 
     @Column()
     price: number;
-    // @Column()
-    // make: string;
+    
+    @Column()
+    make: string;
 
-    // @Column()
-    // model: string;
+    @Column()
+    model: string;
 
-    // @Column()
-    // mileage: number;
+    @Column()
+    year: number;
 
-    // @Column()
-    // longitude: number;
+    
+    @Column()
+    lng: number;
+    
+    @Column()
+    lat: number;
+    
+    @Column()
+    mileage: number;
 
-    // @Column()
-    // latitude: number;
+    //cause the change 
+    @ManyToOne(()=> User, (user)=>user.reports)
+    user: User;
 }

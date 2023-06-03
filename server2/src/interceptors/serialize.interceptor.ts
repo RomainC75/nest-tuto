@@ -16,6 +16,8 @@ export function Serialize(dto: ClassConstructor){
     return UseInterceptors(new SerializeInterceptor(dto))
 }
 
+// USED TO MANAGE TO OUTPUT FORMAT
+
 export class SerializeInterceptor implements NestInterceptor{
     constructor(private dto: any){}
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
